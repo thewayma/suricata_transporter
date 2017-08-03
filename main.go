@@ -3,10 +3,8 @@ package main
 import (
 	"flag"
 	"github.com/thewayma/suricata_transporter/g"
-	"github.com/thewayma/suricata_transporter/receiver"
-    /*
-	"github.com/thewayma/suricata_transporter/sender"
-    */
+	"github.com/thewayma/suricata_transporter/rx"
+	"github.com/thewayma/suricata_transporter/tx"
 )
 
 func main() {
@@ -16,8 +14,8 @@ func main() {
 	g.ParseConfig(*cfg)
     g.InitLog()
 
-	//sender.Start()
-	go receiver.StartRpc()
+	tx.Start()
+	go rx.StartRpc()
 
 	select {}
 }
