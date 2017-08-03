@@ -50,7 +50,7 @@ func (t *Transfer) Update(args []*MetricData, reply *TransferResp) error {
 
 func RecvMetric(items []*MetricData, reply *TransferResp, from string) error {
 	start := time.Now()
-	reply.Invalid = 0 
+	reply.Invalid = 0
 
     //!< sanity check已前移至agent上
 	cfg := Config()
