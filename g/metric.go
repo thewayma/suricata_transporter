@@ -28,6 +28,12 @@ type MetricData struct {      //!< 统一agent,transporter data, 减小内存拷
     Timestamp   int64				`json:"timestamp"`
 }
 
+func (t *MetricData) String() string {
+    return fmt.Sprintf("<Endpoint:%s, Metric:%s, Timestamp:%d, Step:%d, Value:%f, Tags:%v, Type:%s>",
+        t.Endpoint, t.Metric, t.Timestamp, t.Step, t.Value, t.Tags, t.Type)
+}
+
+
 //!< tags按照key排序, 返回用","拼接而成的tags字符串
 func SortedTags(tags map[string]string) string {
     if tags == nil {

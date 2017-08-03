@@ -1,6 +1,7 @@
 package rx
 
 import (
+    "fmt"
 	"time"
 	"log"
 	"net"
@@ -52,13 +53,17 @@ func RecvMetric(args []*MetricData, reply *TransferResp, from string) error {
 	start := time.Now()
 	reply.Invalid = 0
 
+    for _, v := range args {
+        fmt.Printf("%s\n", v)
+    }
+
+    /*
     //!< sanity check已前移至agent上
 	cfg := Config()
 	if cfg.Judge.Enabled {
 		tx.Push2JudgeSendQueue(items)
 	}
 
-    /*
 	if cfg.Graph.Enabled {
 		tx.Push2GraphSendQueue(items)
 	}
