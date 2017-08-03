@@ -12,7 +12,6 @@ const (
 	DefaultSendQueueMaxSize = 102400 //10.24w
 )
 
-// 默认参数
 var (
 	MinStep int //最小上报周期,单位sec
 )
@@ -21,15 +20,15 @@ var (
 // pk -> node
 var (
 	JudgeNodeRing *rings.ConsistentHashNodeRing
-	GraphNodeRing *rings.ConsistentHashNodeRing
+	//GraphNodeRing *rings.ConsistentHashNodeRing
 )
 
 // 发送缓存队列
 // node -> queue_of_data
 var (
-	TsdbQueue   *nlist.SafeListLimited
+	//TsdbQueue   *nlist.SafeListLimited
 	JudgeQueues = make(map[string]*nlist.SafeListLimited)
-	GraphQueues = make(map[string]*nlist.SafeListLimited)
+	//GraphQueues = make(map[string]*nlist.SafeListLimited)
 )
 
 // 连接池
@@ -37,25 +36,29 @@ var (
 var (
 	JudgeConnPools     *SafeRpcConnPools
     //TsdbConnPools      *TsdbConnPoolHelper
-	GraphConnPools     *SafeRpcConnPools
+	//GraphConnPools     *SafeRpcConnPools
 )
 
-// 初始化数据发送服务, 在main函数中调用
+// code == 0 => success
+// code == 1 => bad request
+type SimpleRpcResponse struct {
+    Code int `json:"code"`
+}
+
+func (this *SimpleRpcResponse) String() string {
+    return fmt.Sprintf("<Code: %d>", this.Code)
+}
+
 func Start() {
-	// 初始化默认参数
 	MinStep = Config().MinStep
 	if MinStep < 1 {
-		MinStep = 30 //默认30s
+		MinStep = 30
 	}
 
-    /*
 	initConnPools()
 	initSendQueues()
 	initNodeRings()
-	// SendTasks依赖基础组件的初始化,要最后启动
 	startSendTasks()
-	startSenderCron()
-    */
 	log.Println("send.Start, ok")
 }
 
@@ -94,6 +97,7 @@ func Push2JudgeSendQueue(items []*MetricData) {
 	}
 }
 
+/*
 // 将数据 打入 某个Graph的发送缓存队列, 具体是哪一个Graph 由一致性哈希 决定
 func Push2GraphSendQueue(items []*MetricData) {
 	cfg := Config().Graph
@@ -179,17 +183,16 @@ func Push2TsdbSendQueue(items []*MetricData) {
 // 转化为tsdb格式
 func convert2TsdbItem(d *MetricData) *TsdbItem {
 	t := TsdbItem{Tags: make(map[string]string)}
-    /*
 	for k, v := range d.Tags {
 		t.Tags[k] = v
 	}
-    */
 	t.Tags["endpoint"] = d.Endpoint
 	t.Metric = d.Metric
 	t.Timestamp = d.Timestamp
 	t.Value = d.Value
 	return &t
 }
+*/
 
 func alignTs(ts int64, period int64) int64 {
 	return ts - ts%period

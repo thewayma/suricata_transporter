@@ -1,7 +1,6 @@
 package rx
 
 import (
-    "fmt"
 	"time"
 	"log"
 	"net"
@@ -9,7 +8,7 @@ import (
 	"net/rpc/jsonrpc"
 
     ."github.com/thewayma/suricata_transporter/g"
-	//"github.com/thewayma/suricata_transporter/tx"
+	"github.com/thewayma/suricata_transporter/tx"
 )
 
 type Transfer struct{}
@@ -49,21 +48,17 @@ func (t *Transfer) Update(args []*MetricData, reply *TransferResp) error {
 	return RecvMetric(args, reply, "rpc")
 }
 
-func RecvMetric(args []*MetricData, reply *TransferResp, from string) error {
+func RecvMetric(items []*MetricData, reply *TransferResp, from string) error {
 	start := time.Now()
-	reply.Invalid = 0
+	reply.Invalid = 0 
 
-    for _, v := range args {
-        fmt.Printf("%s\n", v)
-    }
-
-    /*
     //!< sanity check已前移至agent上
 	cfg := Config()
 	if cfg.Judge.Enabled {
 		tx.Push2JudgeSendQueue(items)
 	}
 
+    /*
 	if cfg.Graph.Enabled {
 		tx.Push2GraphSendQueue(items)
 	}
@@ -74,7 +69,7 @@ func RecvMetric(args []*MetricData, reply *TransferResp, from string) error {
     */
 
 	reply.Message = "ok"
-	reply.Total   = len(args)
+	reply.Total   = len(items)
 	reply.Latency = (time.Now().UnixNano() - start.UnixNano()) / 1000000
 
 	return nil

@@ -33,7 +33,6 @@ func (t *MetricData) String() string {
         t.Endpoint, t.Metric, t.Timestamp, t.Step, t.Value, t.Tags, t.Type)
 }
 
-
 //!< tags按照key排序, 返回用","拼接而成的tags字符串
 func SortedTags(tags map[string]string) string {
     if tags == nil {
@@ -90,6 +89,11 @@ type JudgeItem struct {
     Timestamp   int64
     JudgeType   string
     Tags        map[string]string
+}
+
+func (t *JudgeItem) String() string {
+    return fmt.Sprintf("<Endpoint:%s, Metric:%s, Timestamp:%d, Value:%f, Tags:%v, JudgeType:%s>",
+        t.Endpoint, t.Metric, t.Timestamp, t.Value, t.Tags, t.JudgeType)
 }
 
 type GraphItem struct {

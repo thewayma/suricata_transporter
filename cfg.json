@@ -7,7 +7,7 @@
         "Type": "text"
     }, 
     "Http": {
-        "Enabled": true,
+        "Enabled": false,
         "Listen": "0.0.0.0:6060"
     },
     "Rpc": {
@@ -43,7 +43,7 @@
             "Graph-00" : "127.0.0.1:6070"
         }
     },
-    "Influxdb": {
+    "Tsdb": {
         "Enabled": false,
         "Batch": 200,
         "ConnTimeout": 1000,
