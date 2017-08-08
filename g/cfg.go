@@ -9,8 +9,8 @@ import (
 )
 
 type LogConfig struct {
-    LogLevel string
-    Output   string
+	LogLevel string
+	Output   string
 }
 
 type HttpConfig struct {
@@ -67,13 +67,13 @@ type TsdbConfig struct {
 type GlobalConfig struct {
 	Debug   bool
 	MinStep int
-    Log     *LogConfig
+	Log     *LogConfig
 	Http    *HttpConfig
 	Rpc     *RpcConfig
 	Socket  *SocketConfig
 	Judge   *JudgeConfig
 	Graph   *GraphConfig
-	Tsdb    *TsdbConfig     //!< influxdb
+	Tsdb    *TsdbConfig //!< influxdb
 }
 
 var (
@@ -118,7 +118,7 @@ func ParseConfig(cfg string) {
 	defer configLock.Unlock()
 	config = &c
 
-	log.Println("g.ParseConfig ok, file ", cfg)
+	log.Println("read config file:", cfg, "successfully")
 }
 
 type ClusterNode struct {
