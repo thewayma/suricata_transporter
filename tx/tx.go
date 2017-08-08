@@ -2,7 +2,6 @@ package tx
 
 import (
 	"fmt"
-	"log"
 	."github.com/thewayma/suricata_transporter/g"
 	rings "github.com/toolkits/consistent/rings"
 	nlist "github.com/toolkits/container/list"
@@ -59,7 +58,7 @@ func Start() {
 	initSendQueues()
 	initNodeRings()
 	startSendTasks()
-	log.Println("send.Start, ok")
+	Log.Trace("Tx.RPC Init Finished")
 }
 
 // 将数据 打入 某个Judge的发送缓存队列, 具体是哪一个Judge 由一致性哈希 决定
@@ -68,7 +67,7 @@ func Push2JudgeSendQueue(items []*MetricData) {
 		pk := item.PK()
 		node, err := JudgeNodeRing.GetNode(pk)
 		if err != nil {
-			log.Println("E:", err)
+			Log.Error("JudgeNodeRing.GetNode, pk=%s, err=%s", err)
 			continue
 		}
 

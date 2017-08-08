@@ -28,7 +28,7 @@ func StartRpc() {
 	if err != nil {
 		log.Fatalf("listen %s fail: %s", addr, err)
 	} else {
-		log.Println("rpc listening", addr)
+		Log.Info("transporter <= agent, net.ListenTCP.Addr=%v", addr)
 	}
 
 	server := rpc.NewServer()
@@ -37,7 +37,7 @@ func StartRpc() {
 	for {
 		conn, err := listener.Accept()
 		if err != nil {
-			log.Println("listener.Accept occur error:", err)
+			Log.Error("transporter <= agent, listener.Accept occur error:", err)
 			continue
 		}
 		go server.ServeCodec(jsonrpc.NewServerCodec(conn))
@@ -51,6 +51,8 @@ func (t *Transfer) Update(args []*MetricData, reply *TransferResp) error {
 func RecvMetric(items []*MetricData, reply *TransferResp, from string) error {
 	start := time.Now()
 	reply.Invalid = 0
+
+    Log.Trace("transporter <= agent, Total=%d, MetricData[0]=%v", len(items), items[0])
 
     //!< sanity check已前移至agent上
 	cfg := Config()
@@ -71,6 +73,8 @@ func RecvMetric(items []*MetricData, reply *TransferResp, from string) error {
 	reply.Message = "ok"
 	reply.Total   = len(items)
 	reply.Latency = (time.Now().UnixNano() - start.UnixNano()) / 1000000
+
+    Log.Trace("transporter => agent, Transfered=%d, Latency=%d", reply.Total, reply.Latency)
 
 	return nil
 }

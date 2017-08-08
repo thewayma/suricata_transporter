@@ -3,8 +3,7 @@
     "MinStep": 30,
     "Log": {
         "LogLevel": "debug",
-        "Output": "tty",
-        "Type": "text"
+        "Output":   "file"
     }, 
     "Http": {
         "Enabled": false,

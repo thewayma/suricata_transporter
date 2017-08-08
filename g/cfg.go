@@ -9,9 +9,8 @@ import (
 )
 
 type LogConfig struct {
-    LogLevel string     //!< debug, info, warn, error, fatal 日志级别由低到高
-    Output   string     //!< tty, file
-    Type     string     //!< text, json
+    LogLevel string
+    Output   string
 }
 
 type HttpConfig struct {

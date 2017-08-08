@@ -1,8 +1,7 @@
 package tx
 
 import (
-    "fmt"
-	"log"
+    //"fmt"
 	"time"
 	//"bytes"
 	"github.com/toolkits/container/list"
@@ -39,7 +38,6 @@ func startSendTasks() {
 	// init send go-routines
 	for node := range cfg.Judge.Cluster {
 		queue := JudgeQueues[node]
-        fmt.Println(queue, node, judgeConcurrent)
 		go forward2JudgeTask(queue, node, judgeConcurrent)
 	}
 /*
@@ -95,7 +93,7 @@ func forward2JudgeTask(Q *list.SafeListLimited, node string, concurrent int) {
 
 			// statistics
 			if !sendOk {
-				log.Printf("send judge %s:%s fail: %v", node, addr, err)
+				Log.Error("forward2JudgeTask send judge %s:%s fail: %v", node, addr, err)
 				//proc.SendToJudgeFailCnt.IncrBy(int64(count))
 			} else {
 				//proc.SendToJudgeCnt.IncrBy(int64(count))
